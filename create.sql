@@ -1,4 +1,8 @@
-ALTER SESSION SET  nls_date_format = 'dd/MON/yyyy hh24:mi:ss'
+ALTER SESSION SET  nls_date_format = 'dd/MM/yyyy hh24:mi:ss'
+Create sequence auto_inc start with 1
+increment by 1
+minvalue 1
+maxvalue 10000;
 
 CREATE OR REPLACE TABLE Aeroport (
 CodeArpt CHAR(3),
@@ -43,21 +47,23 @@ CONSTRAINT ck_JourArr CHECK (JourArr in (0,1))
 
 
 CREATE OR REPLACE TABLE Affectation (
-NumVol VARCHAR(8),
+id NUMBER,
+DateVol DATE,
+NumVol NUMBER,
 NumAvion NUMBER,
 NbrePassagers NUMBER NOT NULL,
-CONSTRAINT pk_NumVol_NumAvion primary key (NumVol, VumAvion),
+CONSTRAINT pk_id primary key (id),
 CONSTRAINT fk_NumVol FOREIGN KEY (NumVol) REFERENCES Vol(NumVol),
 CONSTRAINT fk_NumAvion FOREIGN KEY (NumAvion) REFERENCES Avion(NumAvion)
 );
 
 CREATE OR REPLACE TABLE Reservation (
-NumVol VARCHAR(8),
-DateVol DATE,
+id NUMBER,
+affectation_id VARCHAR(8),
 NumPlace VARCHAR(6),
 NomClient VARCHAR(50) NOT NULL,
-CONSTRAINT pk_NumVol_DateVol_NumPlace primary key (NumVol, DateVol, NumPlace), 
-CONSTRAINT fk_NumVol FOREIGN KEY (NumVol) REFERENCES Vol(NumVol)
+CONSTRAINT pk_id primary key (id), 
+CONSTRAINT fk_affectation FOREIGN KEY (affectation_id) REFERENCES Affectation(id)
 );
 
 CREATE OR REPLACE TRIGGER aeroport_pre_insert
@@ -102,21 +108,22 @@ INSERT INTO Vol VALUES ('AC8989', 'YYC', 'YBC', to_date(  18:30  , hh24:mi), to_
 INSERT INTO Vol VALUES ('AC8990', 'YBC', 'YYG', to_date(  22:00  , hh24:mi), to_date(   23:30  , hh24:mi), '1', NULL );
 INSERT INTO Vol VALUES ('AC8991', 'Yyg', 'YYC', to_date(  22:00  , hh24:mi), to_date(   23:30  , hh24:mi), '1', NULL );
 
-INSERT INTO Reservation VALUES ('AC8989', to_date( 24/04/2015, DD/MM/YYYY ) ,'A12', 'John Smith');
-INSERT INTO Reservation VALUES ('AC8995', to_date( 24/04/2015, DD/MM/YYYY ) ,'A12', 'John Smith');
-INSERT INTO Reservation VALUES ('AC8991', to_date( 27/04/2015, DD/MM/YYYY ) ,'A37', 'John Smith');
+INSERT INTO Reservation VALUES (auto_inc.nextval, ,'AC8989', to_date( 24/04/2015, DD/MM/YYYY ) ,'A12', 'John Smith');
+INSERT INTO Reservation VALUES ( 'AC8995', to_date( 24/04/2015, DD/MM/YYYY ) ,'A12', 'John Smith');
+INSERT INTO Reservation VALUES ( 'AC8991', to_date( 27/04/2015, DD/MM/YYYY ) ,'A37', 'John Smith');
 
 
 INSERT INTO Affectation VALUES ('AC8989', '0', 0);
 INSERT INTO Affectation VALUES ('AC8991', '1', 50);
 INSERT INTO Affectation VALUES ('AC8990', '2', 3);%can t be insert.
 
-%TODO
-%Insert avion faire auto inc
-%Insert Vol nb max a NULL
-%Insert Affectation change vol.nbMax getAvion.getAppareil.getMAxPlace 
-%Can't Insert if NumVol.getNbPlaceDispo = NUll
-%modify affectation check nbpassager
-%Insert reservation Affectation.NbrePassager =  reserv.NumPlace + Affectation.NbrePassager
-%if <= getAvion.getAppareil.getMAxPlace
-%contrainte heure / nombre d'année 
+/*TODO
+Insert avion faire auto inc
+Insert Vol nb max a NULL
+Insert Affectation change vol.nbMax getAvion.getAppareil.getMAxPlace 
+Can't Insert if NumVol.getNbPlaceDispo = NUll
+modify affectation check nbpassager
+Insert reservation Affectation.NbrePassager =  reserv.NumPlace + Affectation.NbrePassager
+if <= getAvion.getAppareil.getMAxPlace
+contrainte heure / nombre d'année 
+*/
