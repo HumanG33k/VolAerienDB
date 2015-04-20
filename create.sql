@@ -1,4 +1,4 @@
-ALTER SESSION SET  nls_date_format = 'dd/MM/yyyy hh24:mi:ss'
+ALTER SESSION SET  nls_date_format = 'dd/MM/yyyy hh24:mi:ss';
 
 CREATE SEQUENCE reserv_auto_inc 
 START WITH 1
@@ -81,7 +81,7 @@ CONSTRAINT fk_NumAvion
 
 CREATE TABLE Reservation (
 Id NUMBER,
-Affectation_id VARCHAR(8),
+Affectation_id NUMBER(8),
 NumPlace VARCHAR(6),
 NomClient VARCHAR(50) NOT NULL,
 CONSTRAINT pk_Reserv_Id PRIMARY KEY (Id), 
@@ -198,7 +198,7 @@ END;
 
 /* Mettre les heures de vol  */
 
-CREATE OR REPLACE PROCEDURE update_hours(hourIncrement IN NUMBER)
+/*CREATE OR REPLACE PROCEDURE update_hours(hourIncrement IN NUMBER)
 AS
   CURSOR c IS
     SELECT NbreHeures
@@ -221,9 +221,9 @@ DBMS_SCHEDULER.CREATE_JOB (
   enabled              =>  TRUE,
   comments             => 'Gather table statistics');
 END;
-
+*/
 /* Test  Dataset insertion  */
-
+/*
 INSERT INTO Aeroport VALUES ( 'ybc', '', 'BAGOTVILLE','QC');
 INSERT INTO Aeroport VALUES ( 'YYC', 'Jean Chretien', 'BAGOTVILLE', 'alberta');
 INSERT INTO Aeroport VALUES ( 'YYZ', 'LeBlanc', 'Charlottetown', 'PE');
@@ -231,14 +231,16 @@ INSERT INTO Aeroport VALUES ( 'YYZ', 'LeBlanc', 'Charlottetown', 'PE');
 INSERT INTO Appareil VALUES ('A380', '450', 'Airbus');
 INSERT INTO Appareil VALUES ('CRJ200', '200', 'Bombardier');
 INSERT INTO Appareil VALUES ('SpeedFire', '1', 'British');
-
+*/
 --Insertion de donnees valides.
+/*
 INSERT INTO Avion VALUES (0, 'A380', '0', '12500');
 INSERT INTO Avion VALUES (1, 'CRJ200', '12','300000');
 INSERT INTO Avion VALUES (2, 'SpeedFire', '120', '1000000');
+*/
 --Insertion d'une donne invalide afin de tester la contrainte fk_CodeType.
 --INSERT INTO Avion (3, 'Test', 1, 1); 
-
+/*
 INSERT INTO Vol VALUES ('AC8989', 'YYC', 'YBC', to_date(  18:30  , hh24:mi), to_date(   20:30  , hh24:mi), '0', NULL );
 INSERT INTO Vol VALUES ('AC8990', 'YBC', 'YYZ', to_date(  22:00  , hh24:mi), to_date(   23:30  , hh24:mi), '1', NULL );
 INSERT INTO Vol VALUES ('AC8991', 'YYZ', 'YYC', to_date(  22:00  , hh24:mi), to_date(   23:30  , hh24:mi), '1', NULL );
@@ -250,7 +252,7 @@ INSERT INTO Affectation VALUES (2 ,to_date( 27/04/2015,dd/mm/yyyy ) ,'AC8991', '
 INSERT INTO Reservation VALUES (reserv_auto_inc.nextval, ,'0', 'John Smith');
 INSERT INTO Reservation VALUES (reserv_auto_inc.nextval, ,'1', 'John Smith');
 INSERT INTO Reservation VALUES (reserv_auto_inc.nextval, ,'2', 'John Smith');
-
+*/
 /*TODO
 Insert Vol nb max a NULL
 Insert Affectation change vol.nbMax getAvion.getAppareil.getMAxPlace 
