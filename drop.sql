@@ -11,3 +11,7 @@ DROP TABLE Aeroport CASCADE CONSTRAINTS;
 DROP SEQUENCE reserv_auto_inc;
 DROP SEQUENCE affect_auto_inc;
 DROP SEQUENCE avion_auto_inc;
+
+
+/* Drop trigger  */
+
