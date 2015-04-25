@@ -1,4 +1,4 @@
-/* Mettre les heures de vol  */
+/* Mettre les heures de vol a jour toutes des 24 heures.*/
 
 CREATE OR REPLACE PROCEDURE update_hours(hourIncrement IN NUMBER)
 AS
